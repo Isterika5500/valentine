@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Для тебя, моя любовь ❤️</title>
+<style>
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden}
+:root{
+  --bg0:#ffe6f0;
+  --bg1:#ffd4e5;
+  --envW: 450px;
+  --envH: 300px;
+  --cardW: 400px;
+  --cardH: 400px;
+  --envPocket:#f2b6c0;
+  --envPocketDeep:#e58f9f;
+  --envFlap:#fff3ea;
+  --envInner:#f7e2d7;
+  --ink: rgba(0,0,0,.14);
+}
+body{
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,182,193,.3), transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(255,240,245,.4), transparent 50%),
+    linear-gradient(135deg, var(--bg0), var(--bg1));
+  font-family: 'Georgia', 'Times New Roman', serif;
+  position:relative;
+}
+
+/* ===== FLOATING HEARTS BACKGROUND ===== */
+.hearts-bg{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:0;
+}
+.heart{
+  position:absolute;
+  font-size:22px;
+  opacity:0;
+  animation: float-up 8s ease-in infinite;
+  filter:drop-shadow(0 2px 4px rgba(255,105,135,.15));
+}
+.heart::before{
+  content:"❤️";
+}
+@keyframes float-up{
+  0%{
+    transform:translateY(100vh) rotate(0deg);
+    opacity:0;
+  }
+  10%{opacity:.6}
+  90%{opacity:.4}
+  100%{
+    transform:translateY(-20vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.deco{
+  position:fixed;
+  pointer-events:none;
+  z-index:1;
+}
+.rose{
+  font-size:50px;
+  opacity:.12;
+  animation: spin-slow 20s linear infinite;
+}
+.rose:nth-child(1){ top:10%; left:8%; animation-delay:-3s; }
+.rose:nth-child(2){ top:15%; right:12%; animation-delay:-7s; }
+.rose:nth-child(3){ bottom:15%; left:10%; animation-delay:-12s; }
+.rose:nth-child(4){ bottom:20%; right:15%; animation-delay:-5s; }
+.rose:nth-child(5){ top:45%; left:5%; animation-delay:-9s; }
+.rose:nth-child(6){ top:50%; right:8%; animation-delay:-2s; }
+.rose:nth-child(7){ bottom:45%; left:15%; animation-delay:-11s; }
+.rose:nth-child(8){ top:70%; right:20%; animation-delay:-6s; }
+@keyframes spin-slow{
+  to{transform:rotate(360deg)}
+}
+
+/* ===== SPARKLES ===== */
+.sparkles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:10;
+}
+.sparkle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:0 0 8px #ffb3d9;
+  animation: twinkle 3s ease-in-out infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:0; transform:scale(0)}
+  50%{opacity:1; transform:scale(1.5)}
+}
+
+/* ===== SCENE ===== */
+.scene{
+  position:relative;
+  width:var(--envW);
+  height:540px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+  z-index:5;
+}
+
+/* ===== ENVELOPE (реалистичный дизайн) ===== */
+.envelope{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:var(--envW);
+  height:var(--envH);
+  z-index:1;
+  perspective:1000px;
+}
+
+/* Задняя часть (основа конверта) */
+.env-back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:linear-gradient(135deg, #f7e2d7, #f3d5c8);
+  border-radius:6px;
+  box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+/* Левая боковая часть */
+.env-left{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:50%;
+  height:100%;
+  background:linear-gradient(135deg, var(--envPocket), var(--envPocketDeep));
+  clip-path:polygon(0 30%, 100% 0, 100% 100%, 0 100%);
+  border-radius:0 0 0 6px;
+}
+
+/* Правая боковая часть */
+.env-right{
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:50%;
+  height:100%;
+  background:linear-gradient(225deg, var(--envPocket), var(--envPocketDeep));
+  clip-path:polygon(0 0, 100% 30%, 100% 100%, 0 100%);
+  border-radius:0 0 6px 0;
+}
+
+/* Нижняя часть (карман) */
+.env-bottom{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:42%;
+  background:linear-gradient(180deg, var(--envPocket), var(--envPocketDeep));
+  border-radius:0 0 6px 6px;
+  box-shadow:inset 0 -3px 8px rgba(0,0,0,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Узоры на кармане */
+.env-bottom::before{
+  content:"Для любимой вишенки 🍒";
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  font-size:21px;
+  font-family:'Brush Script MT', 'Lucida Handwriting', 'Segoe Script', cursive;
+  font-style:italic;
+  color:rgba(255,255,255,.95);
+  text-shadow:
+    0 2px 4px rgba(0,0,0,.2),
+    0 0 8px rgba(255,255,255,.3);
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+.env-bottom::after{
+  content:"";
+  position:absolute;
+  bottom:8px;
+  left:50%;
+  transform:translateX(-50%);
+  width:70%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.25) 30%, rgba(255,255,255,.25) 70%, transparent);
+}
+
+/* Верхний клапан (треугольник) */
+.env-flap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:55%;
+  background:linear-gradient(135deg, var(--envFlap), #ffe5dc);
+  clip-path:polygon(0 0, 50% 100%, 100% 0);
+  transform-origin:top center;
+  transition:transform 800ms cubic-bezier(.34,1.2,.64,1);
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.12),
+    inset 0 2px 4px rgba(255,255,255,.4);
+  z-index:5;
+}
+.scene.opened .env-flap{
+  transform:rotateX(-180deg);
+}
+
+/* Узор на клапане */
+.env-flap::before{
+  content:"";
+  position:absolute;
+  top:60%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:50px;
+  height:50px;
+  border:2px solid rgba(242,182,192,.25);
+  border-radius:50%;
+}
+.env-flap::after{
+  content:"";
+  position:absolute;
+  top:60%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:36px;
+  height:36px;
+  border:1px solid rgba(242,182,192,.18);
+  border-radius:50%;
+}
+
+/* Сургучная печать */
+.seal{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:55px;
+  height:55px;
+  background:radial-gradient(circle at 30% 30%, #e58f9f, #c96b7d);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:26px;
+  box-shadow:
+    0 4px 12px rgba(201,107,125,.5),
+    inset 0 -2px 4px rgba(0,0,0,.15);
+  transition:transform 400ms;
+  border:3px solid rgba(255,255,255,.3);
+  z-index:6;
+}
+.scene:hover .seal{
+  transform:translate(-50%, -50%) scale(1.12) rotate(12deg);
+}
+.seal::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px dashed rgba(255,255,255,.4);
+  border-radius:50%;
+}
+
+/* Марка */
+.stamp{
+  position:absolute;
+  top:20px;
+  right:25px;
+  width:48px;
+  height:58px;
+  background:linear-gradient(135deg, #fff8f3, #ffe8dd);
+  border:2px dashed rgba(229,143,159,.4);
+  border-radius:3px;
+  display:grid;
+  place-items:center;
+  font-size:26px;
+  opacity:.85;
+  box-shadow:0 3px 6px rgba(0,0,0,.1);
+  z-index:4;
+}
+.stamp::after{
+  content:"";
+  position:absolute;
+  bottom:5px;
+  left:50%;
+  transform:translateX(-50%);
+  width:75%;
+  height:2px;
+  background:rgba(0,0,0,.12);
+  border-radius:1px;
+}
+
+/* ===== CARD ===== */
+.stage{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:var(--cardW);
+  height:var(--cardH);
+  perspective:1200px;
+  z-index:2;
+}
+.card{
+  width:100%;
+  height:100%;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform 900ms cubic-bezier(.2,.8,.2,1), opacity 400ms;
+  transform:translateY(160px);
+  opacity:0;
+}
+.card.show{
+  transform:translateY(-120px);
+  opacity:1;
+}
+.card.flip{
+  transform:translateY(-120px) rotateY(180deg);
+}
+.face{
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  overflow:hidden;
+  backface-visibility:hidden;
+  border:1px solid rgba(0,0,0,.12);
+  background:#fff;
+  box-shadow: 0 20px 40px rgba(16,24,40,.18);
+}
+
+/* ===== FRONT ===== */
+.front{ 
+  position:relative;
+  background:linear-gradient(135deg, #fff5f8, #ffe8f0);
+}
+.front img{
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  display:block;
+}
+
+/* ===== BACK ===== */
+.back{
+  transform:rotateY(180deg);
+  padding:16px;
+  background:#fffdfb;
+}
+.note{
+  height:100%;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.10);
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  background:
+    linear-gradient(to bottom right, rgba(255,240,245,.9), rgba(255,228,240,.9)),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 27px,
+      rgba(255,182,193,.12) 27px,
+      rgba(255,182,193,.12) 28px
+    );
+  overflow:auto;
+}
+.note h3{ 
+  margin:0 0 14px 0; 
+  font-size:20px; 
+  color:#d63a5a;
+  text-align:center;
+  font-weight:600;
+}
+.note p{
+  margin:0 0 12px 0;
+  font-size:14.5px;
+  line-height:1.75;
+  color:#4a2633;
+  font-family:'Georgia', serif;
+  text-align:justify;
+}
+.note .signature{
+  margin-top:auto;
+  text-align:right;
+  font-style:italic;
+  color:#d63a5a;
+  font-size:15px;
+  padding-top:8px;
+}
+
+/* ===== HINT TEXT ===== */
+.hint{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:14px;
+  color:#d63a5a;
+  opacity:.7;
+  animation:pulse 2s ease-in-out infinite;
+  text-shadow:0 2px 4px rgba(255,255,255,.8);
+  z-index:6;
+  pointer-events:none;
+  transition:opacity 400ms;
+}
+@keyframes pulse{
+  0%,100%{opacity:.7; transform:translateX(-50%) scale(1)}
+  50%{opacity:1; transform:translateX(-50%) scale(1.05)}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:480px){
+  :root{
+    --envW:340px;
+    --envH:230px;
+    --cardW:270px;
+    --cardH:370px;
+  }
+  .note{padding:14px}
+  .note h3{font-size:18px}
+  .note p{font-size:13.5px}
+}
+
+/* ===== MUSIC BUTTON ===== */
+.music-btn{
+  position:fixed;
+  top:20px;
+  right:20px;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #ff9eb5, #ff6b8a);
+  border:3px solid rgba(255,255,255,.8);
+  box-shadow:0 4px 12px rgba(255,105,135,.4);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  font-size:24px;
+  transition:all 300ms;
+  z-index:1000;
+  outline:none;
+}
+.music-btn:hover{
+  transform:scale(1.1) rotate(15deg);
+  box-shadow:0 6px 16px rgba(255,105,135,.6);
+}
+.music-btn:active{
+  transform:scale(0.95);
+}
+.music-btn.muted{
+  background:linear-gradient(135deg, #ccc, #999);
+}
+.music-icon{
+  animation:pulse-music 2s ease-in-out infinite;
+}
+@keyframes pulse-music{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+}
+</style>
+</head>
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="moonlit-dreams_90468.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Music control button -->
+<button id="musicToggle" class="music-btn" title="Нажми, чтобы включить музыку">
+  <span class="music-icon">🎵</span>
+</button>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg">
+  <div class="heart" style="left:5%;animation-delay:0s"></div>
+  <div class="heart" style="left:12%;animation-delay:1.5s"></div>
+  <div class="heart" style="left:18%;animation-delay:3s"></div>
+  <div class="heart" style="left:25%;animation-delay:4.5s"></div>
+  <div class="heart" style="left:32%;animation-delay:2s"></div>
+  <div class="heart" style="left:40%;animation-delay:5s"></div>
+  <div class="heart" style="left:48%;animation-delay:2.8s"></div>
+  <div class="heart" style="left:55%;animation-delay:4s"></div>
+  <div class="heart" style="left:62%;animation-delay:1s"></div>
+  <div class="heart" style="left:70%;animation-delay:3.5s"></div>
+  <div class="heart" style="left:77%;animation-delay:0.5s"></div>
+  <div class="heart" style="left:85%;animation-delay:2.2s"></div>
+  <div class="heart" style="left:92%;animation-delay:4.2s"></div>
+  <div class="heart" style="left:15%;animation-delay:5.5s"></div>
+  <div class="heart" style="left:45%;animation-delay:6s"></div>
+  <div class="heart" style="left:75%;animation-delay:6.5s"></div>
+</div>
+
+<!-- Decorative roses -->
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+<div class="deco rose">🌹</div>
+
+<!-- Sparkles -->
+<div class="sparkles">
+  <div class="sparkle" style="top:20%;left:15%;animation-delay:0s"></div>
+  <div class="sparkle" style="top:30%;left:85%;animation-delay:1s"></div>
+  <div class="sparkle" style="top:60%;left:10%;animation-delay:2s"></div>
+  <div class="sparkle" style="top:70%;left:90%;animation-delay:1.5s"></div>
+  <div class="sparkle" style="top:15%;left:50%;animation-delay:2.5s"></div>
+  <div class="sparkle" style="top:80%;left:60%;animation-delay:0.5s"></div>
+</div>
+
+<!-- Main scene -->
+<div class="scene">
+  <!-- Envelope (реалистичный дизайн) -->
+  <div class="envelope">
+    <div class="env-back"></div>
+    <div class="env-left"></div>
+    <div class="env-right"></div>
+    <div class="env-bottom"></div>
+    <div class="stamp">🌸</div>
+    <div class="env-flap">
+      <div class="seal">❤️</div>
+    </div>
+  </div>
+  
+  <!-- Card -->
+  <div class="stage">
+    <div class="card">
+      <div class="face front">
+        <img src="card-front.png" alt="Милые котики">
+      </div>
+      <div class="face back">
+        <div class="note">
+          <h3>Моей вишенке ❤️</h3>
+          <p>
+            Каждое мгновение рядом с тобой — это маленькое чудо, которое наполняет мою жизнь смыслом и радостью. Ты — свет в моём мире, тепло в самый холодный день, улыбка, которая согревает душу.
+          </p>
+          <p>
+            С тобой я понял, что настоящая любовь — это не просто слова, а ощущение полноты, когда ты рядом. Твой смех — моя любимая мелодия, твои глаза — бесконечная вселенная, в которой я хочу раствориться навсегда.
+          </p>
+          <p>
+            Спасибо тебе за то, что ты есть. За каждую улыбку, за каждое прикосновение, за то, что делаешь мою жизнь ярче и прекраснее. Я обещаю всегда быть рядом, беречь тебя и любить с каждым вдохом.
+          </p>
+          <p>
+            Ты — моё всё. Моя любовь, моя мечта, моя судьба.
+          </p>
+          <div class="signature">Твой Сережа 💕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="hint">✨ Нажми на конверт ✨</div>
+
+<script>
+const scene = document.querySelector('.scene');
+const card = document.querySelector('.card');
+const hint = document.querySelector('.hint');
+const bgMusic = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const musicIcon = document.querySelector('.music-icon');
+
+let opened = false;
+let flipped = false;
+let musicPlaying = false;
+
+// Установка громкости
+bgMusic.volume = 0.4;
+
+// Music toggle с улучшенной обработкой
+musicToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  
+  if(musicPlaying){
+    bgMusic.pause();
+    musicIcon.textContent = '🔇';
+    musicToggle.classList.add('muted');
+    musicToggle.title = 'Включить музыку';
+    musicPlaying = false;
+  } else {
+    const playPromise = bgMusic.play();
+    
+    if(playPromise !== undefined){
+      playPromise
+        .then(() => {
+          musicIcon.textContent = '🔊';
+          musicToggle.classList.remove('muted');
+          musicToggle.title = 'Выключить музыку';
+          musicPlaying = true;
+        })
+        .catch(err => {
+          console.log('Не удалось воспроизвести музыку:', err);
+          musicIcon.textContent = '❌';
+          alert('Не удалось воспроизвести музыку. Попробуйте ещё раз!');
+        });
+    }
+  }
+});
+
+// Автоматический запуск музыки при первом клике
+let firstInteraction = true;
+
+scene.addEventListener('click', ()=>{
+  // Попытка запуска музыки при первом взаимодействии
+  if(firstInteraction && !musicPlaying){
+    const playPromise = bgMusic.play();
+    
+    if(playPromise !== undefined){
+      playPromise
+        .then(() => {
+          musicPlaying = true;
+          musicIcon.textContent = '🔊';
+          musicToggle.classList.remove('muted');
+        })
+        .catch(err => {
+          // Тихо игнорируем - пользователь сам включит через кнопку
+          console.log('Автовоспроизведение заблокировано');
+        });
+    }
+    firstInteraction = false;
+  }
+  
+  if(!opened){
+    scene.classList.add('opened');
+    setTimeout(()=>{
+      card.classList.add('show');
+      opened = true;
+    }, 400);
+    hint.style.opacity = '0';
+  } else if(!flipped){
+    card.classList.add('flip');
+    flipped = true;
+  } else {
+    card.classList.remove('flip');
+    flipped = false;
+  }
+});
+
+// Показываем подсказку о музыке
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if(!musicPlaying){
+      musicToggle.style.animation = 'bounce 1s ease-in-out 3';
+    }
+  }, 2000);
+});
+</script>
+
+<style>
+@keyframes bounce{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+}
+</style>
+
+</body>
+</html>
